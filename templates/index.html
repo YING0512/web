@@ -10,7 +10,7 @@
             background-color: #f0f8ff;
             text-align: center;
         }
-        .container {
+        .container {/* 設定容器的樣式 */
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
@@ -18,29 +18,29 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        img {
+        img {/* 設定圖片的樣式 */
             max-width: 100%;
             height: auto;
         }
-        .result {
+        .result {/* 設定結果的樣式 */
             font-size: 1.5em;
             margin: 20px 0;
         }
-        .highlight {
+        .highlight {/* 設定高亮文字的樣式 */
             font-weight: bold;
             color: red;
         }
-        .diet-guide {
+        .reference-articlet-guide {/* 設定推薦文章區域的樣式 */
             display: flex;
-            justify-content: space-between;  /* 在水平上均勻分配空間 */
-            flex-wrap: wrap;  /* 允許換行 */
+            justify-content: space-between;
+            flex-wrap: wrap;
             margin: 20px 0;
         }
-        .diet-item {
-            text-align: center;  /* 文字居中 */
-            margin: 10px;  /* 圖片和文字的上下間距 */
-            flex: 1;  /* 每個項目占據相同的空間 */
-            min-width: 150px;  /* 設定最小寬度，以便於小螢幕顯示 */
+        .reference-articlet-item {/* 設定推薦文章項目的樣式 */
+            text-align: center;
+            margin: 10px; 
+            flex: 1; 
+            min-width: 150px; 
         }
     </style>
 </head>
@@ -70,22 +70,22 @@
             <img src="/static/bmi_table.png" alt="BMI 分級說明">
         </a>
         
-        <!-- 推薦飲食指南 -->
-        <h2>推薦飲食指南</h2>
-        <div class="diet-guide">
-            <div class="diet-item">
+        <!-- 推薦文章 -->
+        <h2>推薦文章</h2>
+        <div class="reference-articlet-guide">
+            <div class="reference-articlet-item">
                 <a href="https://www.hpa.gov.tw/Pages/EBook.aspx?nodeid=1208" target="_blank">
                     <img src="/static/health.png" alt="標準BMI分類圖片">
                 </a>
                 <p>飲食手冊</p>
             </div>
-            <div class="diet-item">
+            <div class="reference-articlet-item">
                 <a href="https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=825&pid=4554" target="_blank">
                     <img src="/static/light.png" alt="過輕BMI分類圖片">
                 </a>
                 <p>維持健康體重</p>
             </div>
-            <div class="diet-item">
+            <div class="reference-articlet-item">
                 <a href="https://www.mohw.gov.tw/cp-3796-42429-1.html" target="_blank">
                     <img src="/static/heavy.png" alt="過重BMI分類圖片">
                 </a>
@@ -99,13 +99,13 @@
         function calculateBMI(event) {
             event.preventDefault();  // 防止表單提交重新載入頁面
 
-            const weight = parseFloat(document.getElementById('weight').value);
+            const weight = parseFloat(document.getElementById('weight').value);/*parseFloat用來將字串轉換為浮點數。如果輸入的值不是有效的數字，parseFloat 將返回 NaN（Not-a-Number）*/
             const height = parseFloat(document.getElementById('height').value);
             let bmi_value = null;
             let category = null;
 
             if (!isNaN(weight) && !isNaN(height) && height > 0) {
-                bmi_value = (weight / (height ** 2)).toFixed(1);
+                bmi_value = (weight / (height ** 2)).toFixed(1);/*toFixed(1) 方法將結果保留到小數點後一位*/
                 
                 // 根據 BMI 值判斷分類
                 if (bmi_value < 18.5) {
@@ -122,8 +122,8 @@
                     category = "重度肥胖";
                 }
 
-                document.getElementById('result').innerHTML = 
-                    `您的 BMI 值為: <span class="highlight">${bmi_value}</span> - ${category}`;
+                document.getElementById('result').innerHTML = /* 更新結果區域顯示 BMI 值和分類*/
+                    `您的 BMI 值為: <span class="highlight">${bmi_value}</span> - ${category}`;/*${category}插入$ 判斷分類{category}*/
             } else {
                 document.getElementById('result').innerHTML = 
                     `<span class="highlight">無效的輸入</span>`;
