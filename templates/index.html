@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI 計算機</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .result {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+        .highlight {
+            font-weight: bold;
+            color: red;
+        }
+        .diet-guide {
+            display: flex;
+            justify-content: space-between;  /* 在水平上均勻分配空間 */
+            flex-wrap: wrap;  /* 允許換行 */
+            margin: 20px 0;
+        }
+        .diet-item {
+            text-align: center;  /* 文字居中 */
+            margin: 10px;  /* 圖片和文字的上下間距 */
+            flex: 1;  /* 每個項目占據相同的空間 */
+            min-width: 150px;  /* 設定最小寬度，以便於小螢幕顯示 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- BMI logo -->
+         <a href="https://twh.org.tw/article/bmizhi-yougao-nideshi" target="_blank">
+            <img src="/static/bmi_logo.png" alt="BMI Logo">
+        </a>
+
+        <!-- BMI 計算表單 -->
+        <form onsubmit="calculateBMI(event)">
+            <label for="weight">體重 (公斤):</label>
+            <input type="number" id="weight" step="0.1" required>
+            <br><br>
+            <label for="height">身高 (公尺):</label>
+            <input type="number" id="height" step="0.01" required>
+            <br><br>
+            <button type="submit">計算 BMI</button>
+        </form>
+        
+        <!-- 顯示結果的區域 -->
+        <div id="result" class="result"></div>
+        
+        <!-- BMI 分級說明 -->
+         <a href="https://doctorfit.com.tw/doctors-articles/bmi" target="_blank">
+            <img src="/static/bmi_table.png" alt="BMI 分級說明">
+        </a>
+        
+        <!-- 推薦飲食指南 -->
+        <h2>推薦飲食指南</h2>
+        <div class="diet-guide">
+            <div class="diet-item">
+                <a href="https://www.hpa.gov.tw/Pages/EBook.aspx?nodeid=1208" target="_blank">
+                    <img src="/static/health.png" alt="標準BMI分類圖片">
+                </a>
+                <p>飲食手冊</p>
+            </div>
+            <div class="diet-item">
+                <a href="https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=825&pid=4554" target="_blank">
+                    <img src="/static/light.png" alt="過輕BMI分類圖片">
+                </a>
+                <p>維持健康體重</p>
+            </div>
+            <div class="diet-item">
+                <a href="https://www.mohw.gov.tw/cp-3796-42429-1.html" target="_blank">
+                    <img src="/static/heavy.png" alt="過重BMI分類圖片">
+                </a>
+                <p>肥胖防治</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function calculateBMI(event) {
+            event.preventDefault();  // 防止表單提交重新載入頁面
+
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            let bmi_value = null;
+            let category = null;
+
+            if (!isNaN(weight) && !isNaN(height) && height > 0) {
+                bmi_value = (weight / (height ** 2)).toFixed(1);
+                
+                // 根據 BMI 值判斷分類
+                if (bmi_value < 18.5) {
+                    category = "過瘦";
+                } else if (bmi_value < 24) {
+                    category = "標準";
+                } else if (bmi_value < 27) {
+                    category = "過重";
+                } else if (bmi_value < 30) {
+                    category = "輕度肥胖";
+                } else if (bmi_value < 35) {
+                    category = "中度肥胖";
+                } else {
+                    category = "重度肥胖";
+                }
+
+                document.getElementById('result').innerHTML = 
+                    `您的 BMI 值為: <span class="highlight">${bmi_value}</span> - ${category}`;
+            } else {
+                document.getElementById('result').innerHTML = 
+                    `<span class="highlight">無效的輸入</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
